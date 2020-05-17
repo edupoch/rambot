@@ -94,12 +94,12 @@ function obtenerImagen($config, $nombre, $conceptos) {
 }
 
 function creaCoordenadasDeMascara($tamano) {
-	$metodo = rand(1, 2);
+	$metodo = rand(1, 4);
+	$ancho = rand(10, 40);
 
 	switch ($metodo) {
 	 	case 1:
 	 		//Diagonales der-izq
-	 		$ancho = rand(10, $tamano / 2);
 	 		$coordenadas = [];
 
 	 		$x = 0;
@@ -116,7 +116,6 @@ function creaCoordenadasDeMascara($tamano) {
 
 	 	case 2: 
 	 		// Diagonales izq-der
-	 		$ancho = rand(10, $tamano / 2);
 	 		$coordenadas = [];
 
 	 		$x = 0;
@@ -127,6 +126,36 @@ function creaCoordenadasDeMascara($tamano) {
 	 				['x' => $x + $ancho, 'y' => $tamano],
 	 				['x' => $x, 'y' => $tamano],
 	 				['x' => 0, 'y' => $tamano - $x],
+	 			];
+	 		}
+
+	 	case 3: 
+	 		// Líneas verticales
+	 		$coordenadas = [];
+
+	 		$x = 0;
+	 		$y = 0;
+	 		for ($x = 0; $x < $tamano; $x = $x + 2 * $ancho) {
+	 			$coordenadas[] = [
+	 				['x' => $x, 'y' => 0],
+	 				['x' => $x + $ancho, 'y' => 0],
+	 				['x' => $x + $ancho, 'y' => $tamano],
+	 				['x' => $x, 'y' => $tamano],
+	 			];
+	 		}
+
+	 	case 4: 
+	 		// Líneas horizontales
+	 		$coordenadas = [];
+
+	 		$x = 0;
+	 		$y = 0;
+	 		for ($x = 0; $x < $tamano; $x = $x + 2 * $ancho) {
+	 			$coordenadas[] = [
+	 				['x' => 0, 'y' => $x],
+	 				['x' => $tamano, 'y' => $x],
+	 				['x' => $tamano, 'y' => $x + $ancho],
+	 				['x' => 0, 'y' => $x + $ancho],
 	 			];
 	 		}	 	
 	 }
@@ -161,7 +190,7 @@ function aplicaMascara($mask, $fichero) {
 	$image->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 	$image->setImageMatte(true);
 	$image->compositeimage($mask, Imagick::COMPOSITE_DSTIN, $maskX, $maskY, Imagick::CHANNEL_ALPHA);
-	$image->trimimage(0);
+	$image->cropImage($maskDimensions['width'], $maskDimensions['height'], $maskX, $maskY);
 
 	return $image;
 }
@@ -195,7 +224,7 @@ $mask2->transparentPaintImage(new ImagickPixel('white'), 0, 1, false);
 
 $imageXulian = aplicaMascara($mask2, $xulian);
 
-// muestraImagen($imageXulian);
+//muestraImagen($imageXulian);
 
 // Combinación
 
