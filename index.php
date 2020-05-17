@@ -45,7 +45,9 @@
 				} else {
 					$estado.html('No se ha podido generar la imagen');
 				}
-			}, 'json');
+			}, 'json').fail(function() {
+			    $estado.html('Ha ocurrido un error. Vuelve a intentarlo en unos minutos');
+			});
 		}
 
 		$(function() {
