@@ -11,11 +11,12 @@ set('shared_files', ['config.php']);
 set('shared_dirs', ['imgs']);
 set('writable_dirs', ['imgs']);
 
-server('prod', '188.166.156.92', 22)
-    ->user('ocre')
-    ->forwardAgent()
+host('production')
+    ->hostname('188.166.156.92')
     ->stage('production')
-    ->env('branch', 'master')
-    ->env('deploy_path', '/var/www/rambot.ocre.soy/www');
+    ->user('ocre')
+    ->forwardAgent(true)    
+    ->set('branch', 'master')
+    ->set('deploy_path', '/var/www/rambot.ocre.soy/www');
 
 ?>
