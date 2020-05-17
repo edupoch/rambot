@@ -99,7 +99,7 @@ function creaCoordenadasDeMascara($tamano) {
 	switch ($metodo) {
 	 	case 1:
 	 		//Diagonales der-izq
-	 		$ancho = rand(1, $tamano);
+	 		$ancho = rand(10, $tamano / 2);
 	 		$coordenadas = [];
 
 	 		$x = 0;
@@ -116,7 +116,7 @@ function creaCoordenadasDeMascara($tamano) {
 
 	 	case 2: 
 	 		// Diagonales izq-der
-	 		$ancho = rand(1, $tamano);
+	 		$ancho = rand(10, $tamano / 2);
 	 		$coordenadas = [];
 
 	 		$x = 0;
@@ -134,65 +134,66 @@ function creaCoordenadasDeMascara($tamano) {
 	return $coordenadas;
 }
 
+function creaMascara($tamano, $coordenadas, $colorFondo, $colorMascara) {
+	$mask = new Imagick();
+	$mask->newimage($tamano, $tamano, new ImagickPixel($colorFondo));
+	$mask->setimageformat('png');
+
+	$polygon = new ImagickDraw();
+	$polygon->setFillColor(new ImagickPixel($colorMascara));
+	foreach ($coordenadas as $cs) {
+		$polygon->polygon($cs);
+	}
+	$mask->drawimage($polygon);
+
+	return $mask;
+}
+
+function aplicaMascara($mask, $fichero) {
+	$maskDimensions = $mask->getImageGeometry();
+
+	$image = new Imagick();
+	$image->readimage($fichero);
+	$imageDimensions = $image->getImageGeometry();
+	$maskX = rand(0, $imageDimensions['width'] - $maskDimensions['width']);
+	$maskY = rand(0, $imageDimensions['height'] - $maskDimensions['height']);
+	$image->setImageFormat('png');
+	$image->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
+	$image->setImageMatte(true);
+	$image->compositeimage($mask, Imagick::COMPOSITE_DSTIN, $maskX, $maskY, Imagick::CHANNEL_ALPHA);
+	$image->trimimage(0);
+
+	return $image;
+}
+
 $xulian = obtenerImagen($config, 'xulian', $conceptosXulian);
 $artur = obtenerImagen($config, 'artur', $conceptosArtur);
 
-// $artur = 'artur.png';
-// $xulian = 'xulian.jpg';
+// $artur = 'imgs/artur.png';
+// $xulian = 'imgs/xulian.png';
 
 $tamano = 500;
 
 $coordenadas = creaCoordenadasDeMascara($tamano);
 
-$mask = new Imagick();
-$mask->newimage($tamano, $tamano, new ImagickPixel('transparent'));
-$mask->setimageformat('png');
-
-$polygon = new ImagickDraw();
-$polygon->setFillColor(new ImagickPixel('black'));
-foreach ($coordenadas as $cs) {
-	$polygon->polygon($cs);
-}
-$mask->drawimage($polygon);
+$mask = creaMascara($tamano, $coordenadas,'transparent', 'black');
 
 //muestraImagen($mask);
 
 // Artur
 
-$imageArtur = new Imagick();
-$imageArtur->readimage($artur);
-$imageArtur->setImageFormat('png');
-$imageArtur->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-$imageArtur->setImageMatte(true);
-$imageArtur->compositeimage($mask, Imagick::COMPOSITE_DSTIN, 0, 0, Imagick::CHANNEL_ALPHA);
-$imageArtur->trimimage(0);
+$imageArtur = aplicaMascara($mask, $artur);
 
 //muestraImagen($imageArtur);
 
 // Xulian
 
-$mask2 = new Imagick();
-$mask2->newimage($tamano, $tamano, new ImagickPixel('black'));
-$mask2->setimageformat('png');
-
-$polygon2 = new ImagickDraw();
-$polygon2->setFillColor(new ImagickPixel('white'));
-foreach ($coordenadas as $cs) {
-	$polygon2->polygon($cs);
-}
-$mask2->drawimage($polygon2);
-
+$mask2 = creaMascara($tamano, $coordenadas, 'black', 'white');
 $mask2->transparentPaintImage(new ImagickPixel('white'), 0, 1, false);
 
 //muestraImagen($mask2);
 
-$imageXulian = new Imagick();
-$imageXulian->readimage($xulian);
-$imageXulian->setImageFormat('png');
-$imageXulian->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-$imageXulian->setImageMatte(true);
-$imageXulian->compositeimage($mask2, Imagick::COMPOSITE_DSTIN, 0, 0, Imagick::CHANNEL_ALPHA);
-$imageXulian->trimimage(0);
+$imageXulian = aplicaMascara($mask2, $xulian);
 
 // muestraImagen($imageXulian);
 
