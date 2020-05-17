@@ -94,7 +94,7 @@ function obtenerImagen($config, $nombre, $conceptos) {
 }
 
 function creaCoordenadasDeMascara($tamano) {
-	$metodo = rand(1, 4);
+	$metodo = rand(1, 5);
 	$ancho = rand(10, 40);
 
 	switch ($metodo) {
@@ -128,6 +128,7 @@ function creaCoordenadasDeMascara($tamano) {
 	 				['x' => 0, 'y' => $tamano - $x],
 	 			];
 	 		}
+	 		break;
 
 	 	case 3: 
 	 		// Líneas verticales
@@ -141,8 +142,10 @@ function creaCoordenadasDeMascara($tamano) {
 	 				['x' => $x + $ancho, 'y' => 0],
 	 				['x' => $x + $ancho, 'y' => $tamano],
 	 				['x' => $x, 'y' => $tamano],
+	 			
 	 			];
 	 		}
+	 		break;
 
 	 	case 4: 
 	 		// Líneas horizontales
@@ -157,8 +160,22 @@ function creaCoordenadasDeMascara($tamano) {
 	 				['x' => $tamano, 'y' => $x + $ancho],
 	 				['x' => 0, 'y' => $x + $ancho],
 	 			];
-	 		}	 	
-	 }
+	 		}
+	 		break;
+
+	 	case 5: 
+	 		// Cuadrado en el centro
+	 		$coordenadas = [];
+	 		$anchoCuadrado = rand($tamano / 5, $tamano / 2);
+
+ 			$coordenadas[] = [
+ 				['x' => $tamano / 2 - $anchoCuadrado,'y' => $tamano / 2 - $anchoCuadrado],
+ 				['x' => $tamano / 2 + $anchoCuadrado,'y' => $tamano / 2 - $anchoCuadrado],
+ 				['x' => $tamano / 2 + $anchoCuadrado,'y' => $tamano / 2 + $anchoCuadrado],
+ 				['x' => $tamano / 2 - $anchoCuadrado,'y' => $tamano / 2 + $anchoCuadrado],
+ 			];
+ 			break;	
+	}
 
 	return $coordenadas;
 }
