@@ -14,7 +14,7 @@ function muestraImagen($imagen) {
 	die();
 }
 
-function obtenerImagen($nombre, $conceptos) {
+function obtenerImagen($config, $nombre, $conceptos) {
 
 	// $fb = new \Facebook\Facebook([
 	//   'app_id' => '278068986920244',
@@ -52,6 +52,8 @@ function obtenerImagen($nombre, $conceptos) {
 	// $response = $client->request('GET', 'guzzle/guzzle');
 
 	$client = new \GuzzleHttp\Client();
+
+
 	$response = $client->request('GET', 'https://customsearch.googleapis.com/customsearch/v1',
 	[
 		'query' => [
@@ -64,7 +66,7 @@ function obtenerImagen($nombre, $conceptos) {
 			'searchType' => 'image',
 			'key' => $config['GOOGLE_KEY'],
 			'safe' => 'off',
-			'cx' => $config['GOOGLE_KEY'],
+			'cx' => $config['GOOGLE_CX'],
 			//'filetype' => 'png'
 			//'dateRestrict' => 'm1',
 
@@ -72,17 +74,15 @@ function obtenerImagen($nombre, $conceptos) {
 	]);
 
 	// echo $response->getStatusCode();
-	// echo $response->getBody();
-
+	
 	$body = json_decode($response->getBody(), true);
-
-	//print_r($body);
 
 	if ($body && isset($body['items']) && count($body['items'])) {
 		$link = $body['items'][0]['link'];
 		$pathinfo = pathinfo($link);
 
-		$fichero = $nombre . '.' . $pathinfo['extension'];
+		//$fichero = $nombre . '.' . $pathinfo['extension'];
+		$fichero = 'imgs/' . $nombre . '.png';
 
 		$client->request('GET', $body['items'][0]['link'], ['sink' => $fichero]);
 
@@ -94,86 +94,51 @@ function obtenerImagen($nombre, $conceptos) {
 }
 
 function creaCoordenadasDeMascara($tamano) {
+	$metodo = rand(1, 2);
 
-	// 50 / 50
-	// return [
-	// 	[
-	// 	    ['x' => 0, 'y' => 0],
-	// 	    ['x' => 0, 'y' => $tamano],
-	// 	    ['x' => $tamano / 2, 'y' => $tamano],
-	// 	    ['x' => $tamano / 2, 'y' => 0],
-	// 	]
-	// ];
+	switch ($metodo) {
+	 	case 1:
+	 		//Diagonales der-izq
+	 		$ancho = rand(1, $tamano);
+	 		$coordenadas = [];
 
-	// Diagonales
-	// $ancho = 20;
-	// $coordenadas = [];
+	 		$x = 0;
+	 		$y = 0;
+	 		for ($x = 0; $x < 2 * $tamano; $x = $x + 2 * $ancho) {
+	 			$coordenadas[] = [
+	 				['x' => $x, 'y' => 0],
+	 				['x' => 0, 'y' => $x],
+	 				['x' => 0, 'y' => $x + $ancho],
+	 				['x' => $x + $ancho, 'y' => 0],
+	 			];
+	 		}
+	 		break;
 
-	// $x = 0;
-	// $y = 0;
-	// for ($x = 0; $x < $tamano; $x = $x + 2 * $ancho) {
-	// 	$coordenadas[] = [
-	// 		['x' => $x, 'y' => 0],
-	// 		['x' => 0, 'y' => $x],
-	// 		['x' => 0, 'y' => $x + $ancho],
-	// 		['x' => $x + $ancho, 'y' => 0],
-	// 	];
-	// }
+	 	case 2: 
+	 		// Diagonales izq-der
+	 		$ancho = rand(1, $tamano);
+	 		$coordenadas = [];
 
-	// $x = 0;
-	// $y = 0;
-	// for ($y = $ancho; $y < $tamano; $y = $y + 2 * $ancho) {
-	// 	$coordenadas[] = [
-	// 		['x' => $tamano, 'y' => $y],
-	// 		['x' => $y, 'y' => $tamano],			
-	// 		['x' => $y + $ancho, 'y' => $tamano],			
-	// 		['x' => $tamano, 'y' => $y + $ancho],
-			
-	// 	];
-	// }
-
-	// Diagonales der-izq
-	$ancho = rand(1, $tamano);
-	$coordenadas = [];
-
-	$x = 0;
-	$y = 0;
-	for ($x = 0; $x < 2 * $tamano; $x = $x + 2 * $ancho) {
-		$coordenadas[] = [
-			['x' => $x, 'y' => 0],
-			['x' => 0, 'y' => $x],
-			['x' => 0, 'y' => $x + $ancho],
-			['x' => $x + $ancho, 'y' => 0],
-		];
-	}
-
-	// Otras formas
-
-			// ['x' => $y, 'y' => 0],
-			// ['x' => $y + $ancho, 'y' => 0],
-			// ['x' => $tamano, 'y' => $tamano - $y],
-			// ['x' => $tamano, 'y' => $tamano - $y - $ancho],
-
-			// ['x' => $tamano, 'y' => $y],
-			// ['x' => 0, 'y' => $y],			
-			// ['x' => 0, 'y' => $y + $ancho],			
-			// ['x' => $tamano, 'y' => $y + $ancho],
-
-			// ['x' => $tamano, 'y' => $y],
-			// ['x' => 0, 'y' => $tamano - $y - $ancho],			
-			// ['x' => 0, 'y' => $tamano - $y],			
-			// ['x' => $tamano, 'y' => $y + $ancho],
+	 		$x = 0;
+	 		$y = 0;
+	 		for ($x = 0; $x < 2 * $tamano; $x = $x + 2 * $ancho) {
+	 			$coordenadas[] = [
+	 				['x' => 0, 'y' => $tamano - $ancho - $x],
+	 				['x' => $x + $ancho, 'y' => $tamano],
+	 				['x' => $x, 'y' => $tamano],
+	 				['x' => 0, 'y' => $tamano - $x],
+	 			];
+	 		}	 	
+	 }
 
 	return $coordenadas;
 }
 
-// phpinfo();
+$xulian = obtenerImagen($config, 'xulian', $conceptosXulian);
+$artur = obtenerImagen($config, 'artur', $conceptosArtur);
 
-// $xulian = obtenerImagen('xulian', $conceptosXulian);
-// $artur = obtenerImagen('artur', $conceptosArtur);
-
-$artur = 'artur.png';
-$xulian = 'xulian.jpg';
+// $artur = 'artur.png';
+// $xulian = 'xulian.jpg';
 
 $tamano = 500;
 
