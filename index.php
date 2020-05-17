@@ -37,10 +37,13 @@
 			$.get('generar.php', '', function(resultado) {
 				console.log(resultado);
 				if (resultado && resultado.img) {
+					var src = resultado.img + '?v=' + Date.now();
+					
 					html = '';
-					html += '<img src="' + resultado.img + '?v=' + Date.now() + '" />';
+					html += '<img src="' + src + '" />';
 					html += '<textarea>' + resultado.conceptos + '</textarea>';
-					html += '<button onclick="generarImagen()">Generar otra imagen</button>'
+					html += '<a href="' + src + '" download="rambot_' + Date.now() + '.png">Descargar imagen</a><br><br>';
+					html += '<a href="#" onclick="generarImagen()">Generar otra imagen</a>';
 					$estado.html(html);
 				} else {
 					$estado.html('No se ha podido generar la imagen');
