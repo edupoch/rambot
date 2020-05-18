@@ -5,8 +5,8 @@ require_once __DIR__ . '/config.php';
 
 error_reporting(E_ALL);
 
-$conceptosArtur = ['buildings'];
-$conceptosXulian = ['puke'];
+$conceptosArtur = ['buildings', 'beatnik'];
+$conceptosXulian = ['puke', 'pus'];
 
 function muestraImagen($imagen) {
 	header('Content-Type: image/png');
@@ -172,11 +172,11 @@ function aplicaMascara($mask, $fichero) {
 $conceptoArtur = $conceptosArtur[rand(0, count($conceptosArtur) - 1)];
 $conceptoXulian = $conceptosXulian[rand(0, count($conceptosXulian) - 1)];
 
-$xulian = obtenerImagen($config, 'xulian', $conceptoXulian);
-$artur = obtenerImagen($config, 'artur', $conceptoArtur);
+// $xulian = obtenerImagen($config, 'xulian', $conceptoXulian);
+// $artur = obtenerImagen($config, 'artur', $conceptoArtur);
 
-// $artur = 'imgs/artur.png';
-// $xulian = 'imgs/xulian.png';
+$artur = 'imgs/artur.png';
+$xulian = 'imgs/xulian.png';
 
 $tamano = 500;
 
