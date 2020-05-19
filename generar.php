@@ -5,8 +5,8 @@ require_once __DIR__ . '/config.php';
 
 error_reporting(E_ALL);
 
-$conceptosArtur = ['buildings', 'beatnik'];
-$conceptosXulian = ['puke', 'pus'];
+$conceptosArtur = ['buildings', 'beatnik', 'chet baker', 'moroder'];
+$conceptosXulian = ['puke', 'pus', 'drugs', 'porn'];
 
 function muestraImagen($imagen) {
 	header('Content-Type: image/png');
@@ -219,7 +219,7 @@ $resultado->writeImage($ficheroResultado);
 
 echo json_encode([
 	'img' => $ficheroResultado,
-	'conceptos' => '#' . $conceptoArtur . ' #' . $conceptoXulian
+	'conceptos' => '#' . preg_replace('/\s/', '', $conceptoArtur) . ' #' . preg_replace('/\s/', '', $conceptoXulian)
 ]);
 
 ?>
