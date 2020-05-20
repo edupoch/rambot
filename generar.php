@@ -5,8 +5,8 @@ require_once __DIR__ . '/config.php';
 
 error_reporting(E_ALL);
 
-$conceptosArtur = ['buildings', 'beatnik', 'chet baker', 'moroder'];
-$conceptosXulian = ['puke', 'pus', 'drugs', 'porn'];
+$conceptosArtur = ['buildings', 'beatnik', 'chet baker', 'moroder', 'elegancia'];
+$conceptosXulian = ['puke', 'pus', 'drugs', 'porn', 'enfermedades asquerosas'];
 
 function muestraImagen($imagen) {
 	header('Content-Type: image/png');

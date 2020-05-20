@@ -5,6 +5,10 @@
 	<link rel="stylesheet" href="normlize.css">
 	
 	<style>
+		body {
+			font-family: monospace;
+		}
+		
 		.wrapper {
 			max-width: 500px;
 			margin: 0 auto;
