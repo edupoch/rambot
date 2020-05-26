@@ -1,3 +1,8 @@
+<?php 
+	require_once __DIR__ . '/funciones.php';
+
+	$conceptos = leerConceptos();
+?>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -14,6 +19,12 @@
 			margin: 0 auto;
 		}
 
+		.mitad {
+			width: 50%;
+			height: 100%;
+			float: left;
+		}
+
 		img, textarea {
 			display: block;
 			width: 100%;
@@ -24,11 +35,27 @@
 			margin: 0 auto;
 		}
 
+		.bloque {
+			display: block;
+			margin-bottom: 10px;
+			clear: both;
+		}
+
 	</style>
 </head>
 <body>
 	<div class="wrapper">
-		<div class="js-estado"></div>
+		<div class="bloque js-estado"></div>
+
+		<a href="#" style="margin-top: 50px" class="bloque js-cambiarConceptos">Cambiar conceptos</a>
+
+		<form class="conceptos js-conceptos" action="guardar.php" method="post" style="display:none">
+			<label for="artur">Conceptos para <b>Artur</b>, separados por comas</label>
+			<textarea name="artur" id="" cols="30" rows="10"><?= isset($conceptos['artur']) ? implode($conceptos['artur'], ',') : '' ?></textarea>
+			<label for="xulian">Conceptos para <b>Xulián</b>, separados por comas</label>
+			<textarea name="xulian" id="" cols="30" rows="10"><?= isset($conceptos['xulian']) ? implode($conceptos['xulian'], ',') : '' ?></textarea>
+			<button type="sumbit">Guardar</button>
+		</form>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -47,8 +74,8 @@
 					html += '<img src="' + src + '" />';
 					html += '<label>Texto para Instagram</label>';
 					html += '<textarea rows="4">' + resultado.conceptos + '</textarea>';
-					html += '<a href="' + src + '" download="rambot_' + Date.now() + '.png">Descargar imagen</a><br><br>';
-					html += '<a href="#" onclick="generarImagen()">Generar otra imagen</a>';
+					html += '<a style="float: left" href="' + src + '" download="rambot_' + Date.now() + '.png">Descargar imagen</a>';
+					html += '<a style="float: right" href="#" onclick="generarImagen()">Generar otra imagen</a>';
 					$estado.html(html);
 				} else {
 					$estado.html('No se ha podido generar la imagen');
@@ -60,6 +87,12 @@
 
 		$(function() {
 			generarImagen();
+
+			$('.js-cambiarConceptos').click(function(e) {
+				e.preventDefault();
+
+				$('.js-conceptos').toggle();
+			});
 		});
 	</script>	
 </body>

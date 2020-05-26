@@ -2,11 +2,14 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/funciones.php';
 
 error_reporting(E_ALL);
 
-$conceptosArtur = ['buildings', 'beatnik', 'chet baker', 'moroder', 'elegancia'];
-$conceptosXulian = ['puke', 'pus', 'drugs', 'porn', 'enfermedades asquerosas'];
+$conceptos = leerConceptos();
+
+$conceptosArtur = $conceptos['artur'];
+$conceptosXulian = $conceptos['xulian'];
 
 function muestraImagen($imagen) {
 	header('Content-Type: image/png');

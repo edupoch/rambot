@@ -7,7 +7,7 @@ require 'recipe/composer.php';
 
 set('repository', 'git@github.com:edupoch/rambot.git');
 set('git_tty', true);
-set('shared_files', ['config.php']);
+set('shared_files', ['config.php', 'conceptos.json']);
 set('shared_dirs', ['imgs']);
 set('writable_dirs', ['imgs']);
 
