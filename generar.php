@@ -183,7 +183,7 @@ try {
 	$xulian = 'imgs/xulian.png';
 }
 
-$tamano = 500;
+$tamano = 600;
 
 $coordenadas = creaCoordenadasDeMascara($tamano);
 
