@@ -75,7 +75,7 @@
 					html = '';
 					html += '<img src="' + src + '" />';
 					html += '<label>Texto para Instagram</label>';
-					html += '<textarea rows="4">' + resultado.conceptos + '</textarea>';
+					html += '<textarea rows="1">' + resultado.conceptos + '</textarea>';
 					html += '<a style="float: left" href="' + src + '" download="rambot_' + Date.now() + '.png">Descargar imagen</a>';
 					html += '<a style="float: right" href="#" onclick="generaImagen()">Generar otra imagen</a>';
 					$estado.html(html);
