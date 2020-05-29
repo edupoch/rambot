@@ -38,17 +38,16 @@
 
 		.bloque {
 			display: block;
-			margin-bottom: 10px;
+			margin-bottom: 20px;
 			clear: both;
+			overflow: hidden;
 		}
 
 	</style>
 </head>
 <body>
 	<div class="wrapper">
-		<div class="bloque js-estado"></div>
-
-		<a href="#" style="margin-top: 50px" class="bloque js-cambiaConceptos">Cambiar conceptos</a>
+		<a href="#" style="float: right" class="bloque js-cambiaConceptos">Cambiar conceptos</a>
 
 		<form class="conceptos js-conceptos" action="guardar.php" method="post" style="display:none">
 			<label for="artur">Conceptos para <b>Artur</b>, separados por comas</label>
@@ -57,6 +56,8 @@
 			<textarea name="xulian" id="" cols="30" rows="10"><?= isset($conceptos['xulian']) ? implode($conceptos['xulian'], ',') : '' ?></textarea>
 			<button type="sumbit">Guardar</button>
 		</form>
+
+		<div class="bloque js-estado"></div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
