@@ -1,7 +1,7 @@
 <?php 
 	require_once __DIR__ . '/funciones.php';
 
-	$conceptos = leerConceptos();
+	$conceptos = leeConceptos();
 ?>
 <html>
 <head>
@@ -48,7 +48,7 @@
 	<div class="wrapper">
 		<div class="bloque js-estado"></div>
 
-		<a href="#" style="margin-top: 50px" class="bloque js-cambiarConceptos">Cambiar conceptos</a>
+		<a href="#" style="margin-top: 50px" class="bloque js-cambiaConceptos">Cambiar conceptos</a>
 
 		<form class="conceptos js-conceptos" action="guardar.php" method="post" style="display:none">
 			<label for="artur">Conceptos para <b>Artur</b>, separados por comas</label>
@@ -61,7 +61,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<script>
-		function generarImagen() {
+		function generaImagen() {
 			$estado = $('.js-estado');
 
 			$estado.html('Generando imagen...');
@@ -76,7 +76,7 @@
 					html += '<label>Texto para Instagram</label>';
 					html += '<textarea rows="4">' + resultado.conceptos + '</textarea>';
 					html += '<a style="float: left" href="' + src + '" download="rambot_' + Date.now() + '.png">Descargar imagen</a>';
-					html += '<a style="float: right" href="#" onclick="generarImagen()">Generar otra imagen</a>';
+					html += '<a style="float: right" href="#" onclick="generaImagen()">Generar otra imagen</a>';
 					$estado.html(html);
 				} else {
 					$estado.html('No se ha podido generar la imagen');
@@ -87,9 +87,9 @@
 		}
 
 		$(function() {
-			generarImagen();
+			generaImagen();
 
-			$('.js-cambiarConceptos').click(function(e) {
+			$('.js-cambiaConceptos').click(function(e) {
 				e.preventDefault();
 
 				$('.js-conceptos').toggle();
