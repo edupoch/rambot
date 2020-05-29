@@ -27,6 +27,7 @@ function obtenerImagen($config, $nombre, $concepto) {
 			'num' => 1,
 			'start' => rand(1, 99),
 			'imgSize' => 'xlarge',
+			'imgType' => 'photo',
 			'searchType' => 'image',
 			'safe' => 'off',
 			'key' => $config['GOOGLE_KEY'],			

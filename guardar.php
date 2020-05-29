@@ -3,11 +3,11 @@
 
 	if ($_POST) {
 		$nuevosConceptos = [
-			'artur' => explode(',', $_POST['artur']),
-			'xulian' => explode(',', $_POST['xulian']),
+			'artur' => extraerConceptos($_POST['artur']),
+			'xulian' => extraerConceptos($_POST['xulian']),
 		];
 
-		guardarConceptos($nuevosConceptos);
+		guardarConceptos($nuevosConceptos);	
 	}
 
 	header('Location: /', true, 303);
